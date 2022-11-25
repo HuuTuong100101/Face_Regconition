@@ -34,7 +34,7 @@ while True:
     gray = cv2.cvtColor(frame, cv2.COLOR_BGRA2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
     for(x, y, w, h) in faces:
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        cv2.rectangle(frame, (x+20, y-20), (x+w-20, y+h+20), (250, 0, 0), 2)
         if not os.path.exists('Image'):
             os.mkdir('Image')
         index += 1
@@ -43,7 +43,7 @@ while True:
     cv2.imshow('FaceApp', frame)
     cv2.waitKey(1)
 
-    if index > 100:
+    if index > 200:
         break
 
 cap.release()
