@@ -21,30 +21,51 @@ def insertAndUpdate(id, name):
 
 # Load cam
 face_cascade = cv2.CascadeClassifier("C:\\Users\\tn732\\PycharmProjects\\pythonProject4\\venv\\Lib\\site-packages\\cv2\\data\\haarcascade_frontalface_default.xml")
-cap = cv2.VideoCapture(0)
+dir = r'D:\HK1_2022_2023\CT466_NLCN\PycharmProjects\CT466\Image'
 
-# insert database
-id = round(random.uniform(0,10) * 1000000)
-name = input("Nhập tên: ")
-insertAndUpdate(id, name)
+label = []
 
-index = 0
-while True:
-    ret, frame = cap.read()
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGRA2GRAY)
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-    for(x, y, w, h) in faces:
-        cv2.rectangle(frame, (x+20, y-20), (x+w-20, y+h+20), (250, 0, 0), 2)
-        if not os.path.exists('Image'):
-            os.mkdir('Image')
-        index += 1
-        cv2.imwrite('Image/User.' + str(id)+'.'+str(index)+'.jpg', gray[y:y+h, x:x+w])
+pathVideo = []
+pathFolder = []
+# index = 0
 
-    cv2.imshow('FaceApp', frame)
-    cv2.waitKey(1)
+for i in os.listdir(dir):
+    label.append(i)
+    path1 = os.path.join(dir, i)
+    pathFolder.append(path1)
 
-    if index > 200:
-        break
+    for j in os.listdir(path1):
+        path2 = os.path.join(path1, j)
+        pathVideo.append(path2)
 
-cap.release()
-cv2.destroyAllWindows()
+for i in pathVideo:
+    id = round(random.uniform(0, 10) * 1000000)
+    Name = i.split('\\')[6]
+    insertAndUpdate(id, Name)
+    index = 0
+    cap = cv2.VideoCapture(i)
+    while True:
+        print(index)
+        ret, frame = cap.read()
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGRA2GRAY)
+        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+        for(x, y, w, h) in faces:
+            cv2.rectangle(frame, (x+20, y-20), (x+w-20, y+h+20), (250, 0, 0), 2)
+            if not os.path.exists('Train'):
+                os.mkdir('Train')
+            if not os.path.exists('Test'):
+                os.mkdir('Test')
+            if index <= 200:
+                cv2.imwrite('Train/User.' + str(id)+'.'+str(index)+'.jpg', gray[y:y+h, x:x+w])
+            else:
+                cv2.imwrite('Test/User.' + str(id) + '.' + str(index) + '.jpg', gray)
+
+            index += 1
+        cv2.imshow('FaceApp', frame)
+        cv2.waitKey(1)
+
+        if index > 201:
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
