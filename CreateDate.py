@@ -20,8 +20,8 @@ def insertAndUpdate(id, name):
 
 
 # Load cam
-face_cascade = cv2.CascadeClassifier("C:\\Users\\tn732\\PycharmProjects\\pythonProject4\\venv\\Lib\\site-packages\\cv2\\data\\haarcascade_frontalface_default.xml")
-dir = r'D:\HK1_2022_2023\CT466_NLCN\PycharmProjects\CT466\Image'
+face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+dir = r'D:\HK1_2022_2023\CT466_NLCN\PycharmProjects\CT466\Video'
 
 label = []
 
@@ -44,6 +44,7 @@ for i in pathVideo:
     insertAndUpdate(id, Name)
     index = 0
     cap = cv2.VideoCapture(i)
+    ran = random.randint(0, 201)
     while True:
         print(index)
         ret, frame = cap.read()
@@ -55,10 +56,10 @@ for i in pathVideo:
                 os.mkdir('Train')
             if not os.path.exists('Test'):
                 os.mkdir('Test')
-            if index <= 200:
+            if index != ran:
                 cv2.imwrite('Train/User.' + str(id)+'.'+str(index)+'.jpg', gray[y:y+h, x:x+w])
             else:
-                cv2.imwrite('Test/User.' + str(id) + '.' + str(index) + '.jpg', gray)
+                cv2.imwrite('Test/User.' + str(id) + '.' + str(index) + '.jpg', frame)
 
             index += 1
         cv2.imshow('FaceApp', frame)

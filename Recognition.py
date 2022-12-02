@@ -5,7 +5,7 @@ import sqlite3
 from PIL import Image
 
 # Huấn luyện hình ảnh nhận diện khuôn mặt với thư viên nhận diện khuôn mặt
-face_cascade = cv2.CascadeClassifier("C:\\Users\\tn732\\PycharmProjects\\pythonProject4\\venv\\Lib\\site-packages\\cv2\\data\\haarcascade_frontalface_default.xml")
+face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 recognizer = cv2.face_LBPHFaceRecognizer.create()
 dirImg = r'D:\HK1_2022_2023\CT466_NLCN\PycharmProjects\CT466\Test'
 
